@@ -1,4 +1,5 @@
 int add(String numbers) {
+  // Step 1: Handle empty string
   if (numbers.isEmpty) {
     return 0;
   }
@@ -6,24 +7,30 @@ int add(String numbers) {
   final String defaultDelimiter = ',';
   String delimiter = defaultDelimiter;
 
+  // Step 4: Check for custom delimiter
+
   if (numbers.startsWith('//')) {
     final int delimiterEndIndex = numbers.indexOf('\n');
     delimiter = numbers.substring(2, delimiterEndIndex);
     numbers = numbers.substring(delimiterEndIndex + 1);
+
+    // Step 7 & 8 & 9: Handle delimiters of any length and multiple delimiters
     if (delimiter.startsWith('[') && delimiter.endsWith(']')) {
       var delimiters = _extractDelimiters(delimiter);
       numbers = _replaceDelimiters(numbers, delimiters);
       delimiter = ','; // We've normalized all delimiters to comma
     } else {
-      delimiter = defaultDelimiter;
+      delimiter = delimiter;
     }
   }
 
+  // Step 3: Handle new lines between numbers
   numbers = numbers.replaceAll('\n', delimiter);
   final List<String> number = numbers.split(delimiter);
 
   List<int> parsedNumbers = [];
   List<int> negativeNumbers = [];
+
   for (var numberString in number) {
     if (numberString.trim().isNotEmpty) {
       var number = int.parse(numberString.trim());
@@ -32,6 +39,7 @@ int add(String numbers) {
       if (number < 0) {
         negativeNumbers.add(number);
       } else if (number <= 1000) {
+        // Step 6: Ignore numbers bigger than 1000
         parsedNumbers.add(number);
       }
     }
