@@ -26,7 +26,7 @@ int add(String numbers) {
       // Step 5: Check for negative numbers
       if (number < 0) {
         negativeNumbers.add(number);
-      } else {
+      } else if (number <= 1000) {
         parsedNumbers.add(number);
       }
     }
