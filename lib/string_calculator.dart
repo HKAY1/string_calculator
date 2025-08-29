@@ -17,7 +17,27 @@ int add(String numbers) {
   numbers = numbers.replaceAll('\n', delimiter);
   final List<String> number = numbers.split(delimiter);
 
-  return number.fold(0, (a, b) {
-    return a + int.parse(b);
+  List<int> parsedNumbers = [];
+  List<int> negativeNumbers = [];
+  for (var numberString in number) {
+    if (numberString.trim().isNotEmpty) {
+      var number = int.parse(numberString.trim());
+
+      // Step 5: Check for negative numbers
+      if (number < 0) {
+        negativeNumbers.add(number);
+      } else {
+        parsedNumbers.add(number);
+      }
+    }
+  }
+  if (negativeNumbers.isNotEmpty) {
+    throw ArgumentError(
+      'negative numbers not allowed ${negativeNumbers.join(', ')}',
+    );
+  }
+
+  return parsedNumbers.fold(0, (a, b) {
+    return a + b;
   });
 }
